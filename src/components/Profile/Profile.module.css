@@ -1,0 +1,82 @@
+.profile__page {
+    width: 1070px;
+    align-self: center;
+}
+
+.profile__title {
+    font-family: "Playfair Display", serif;
+    margin-bottom: 64px;
+    font-size: 3.5rem;
+    line-height: 3.5rem;
+}
+
+.profile {
+    display: flex;
+    gap: 40px;
+}
+
+.profile__form__input_name {
+    display: flex;
+    gap: 32px;
+}
+
+.profile__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.textarea {
+    resize: none;
+    width: 654px;
+    height: 140px;
+    padding: 15px 10px;
+    margin-bottom: 48px;
+}
+
+.textarea__text {
+    font-family: "IBM Plex Sans", sans-serif;
+    color: #242424;
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+}
+
+.textarea:active, .textarea:hover, .textarea:focus {
+    border: 1px solid #8C8C8C;
+    outline: none;
+}
+
+@media screen and (max-width: 1080px) {
+    .profile__page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 800px;
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile__form__input_name {
+        flex-direction: column;
+        gap: 0;
+    }
+
+}
+
+@media screen and (max-width: 750px) {
+    .profile__page {
+        width: 400px;
+    }
+
+    .profile__form {
+        width: 400px;
+    }
+
+    .textarea {
+        width: 400px;
+    }
+
+}
