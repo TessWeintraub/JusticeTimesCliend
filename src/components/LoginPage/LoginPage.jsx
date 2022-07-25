@@ -10,9 +10,10 @@ import Input from "../UI/Input/Input"
 import Button from "../UI/Button/Button"
 import {loginData} from "../../mockdata/appConstants"
 import Cookies from "js-cookie";
-
+import {instance} from "../../store/instances";
 import LoginPageClasses from "./LoginPage.module.css"
 import {asyncLoginAction} from "../../store/action";
+import axios from "axios";
 
 
 const LoginPage = () => {
@@ -46,8 +47,14 @@ const LoginPage = () => {
 
     dispatch(asyncLoginAction(thisUser))
 
-    navigate("/main-page")
+    // navigate("/main-page")
   };
+
+  const handleClick = async (e) => {
+    e.preventDefault()
+    const res = await instance.get('posts')
+    console.log(res.data);
+  }
 
   return (
       <>
@@ -80,10 +87,13 @@ const LoginPage = () => {
             <Button
                 name="Log in"
                 variant="contained__login"
-                onClick={(e) => {
-                  clickLoginBth(e);
-                }}
+                onClick={ e => clickLoginBth(e)}
                 isDisable={isDisableBtn}
+            />
+            <Button
+              name="Test"
+              variant="contained__login"
+              onClick={ e => handleClick(e)}
             />
           </form>
           <p className={LoginPageClasses[`login__subtitle`]}>

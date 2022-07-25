@@ -39,16 +39,15 @@ const SignInPage = () => {
   const submitForm = (e) => {
     e.preventDefault();
     const newUser = {
-      firstName: formState.firstName.value,
-      lastName: formState.lastName.value,
+      first_name: formState.firstName.value,
+      last_name: formState.lastName.value,
       email: formState.email.value,
       password: formState.password.value,
-      image: voidUserImage
     };
 
     dispatch(asyncRegisterAction(newUser))
 
-    navigate("/main-page")
+    // navigate("/main-page")
   };
 
   return (
