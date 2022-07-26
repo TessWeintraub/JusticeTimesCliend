@@ -4,8 +4,6 @@ import {Link} from "react-router-dom"
 import {useNavigate} from "react-router-dom"
 import {useDispatch} from "react-redux";
 
-import Header from "../Header/Header"
-import Footer from "../Footer/Footer"
 import Input from "../UI/Input/Input"
 import Button from "../UI/Button/Button"
 import {loginData} from "../../mockdata/appConstants"
@@ -13,7 +11,9 @@ import Cookies from "js-cookie";
 import {instance} from "../../store/instances";
 import LoginPageClasses from "./LoginPage.module.css"
 import {asyncLoginAction} from "../../store/action";
-import axios from "axios";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+
 
 
 const LoginPage = () => {
@@ -34,27 +34,22 @@ const LoginPage = () => {
     });
   }, [validState, formState])
 
-  useEffect(() => {
-    if (Cookies.get("TOKEN")) navigate("/main-page", {replace: true})
-  }, [Cookies.get("TOKEN")])
-
   const clickLoginBth = (e) => {
     e.preventDefault();
-      const thisUser = {
+    const thisUser = {
       email: formState.email.value,
       password: formState.password.value
     }
-
     dispatch(asyncLoginAction(thisUser))
 
-    // navigate("/main-page")
+    setTimeout(()=>{
+      if (JSON.parse(Cookies.get('is_auth')))
+      {
+        dispatch({type: 'SET_AUTH', payload : {isAuth: true, isLoading: false}})
+        navigate('/main-page', {replace: true})
+      }
+    },300)
   };
-
-  const handleClick = async (e) => {
-    e.preventDefault()
-    const res = await instance.get('posts')
-    console.log(res.data);
-  }
 
   return (
       <>
@@ -89,11 +84,6 @@ const LoginPage = () => {
                 variant="contained__login"
                 onClick={ e => clickLoginBth(e)}
                 isDisable={isDisableBtn}
-            />
-            <Button
-              name="Test"
-              variant="contained__login"
-              onClick={ e => handleClick(e)}
             />
           </form>
           <p className={LoginPageClasses[`login__subtitle`]}>

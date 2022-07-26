@@ -2,15 +2,20 @@ import {
   ADD_ARTICLE,
   ASYNC_ADD_ARTICLE,
   ASYNC_GET_ALL_ARTICLES,
+  ASYNC_GET_POPULAR_ARTICLE,
   ASYNC_GET_MY_ARTICLES,
   ASYNC_GET_PROFILE,
-  ASYNC_LOGIN, ASYNC_OPEN_ARTICLE,
+  ASYNC_LOGIN,
+  ASYNC_OPEN_ARTICLE,
   ASYNC_REGISTER,
   CHANGE_PROFILE,
   GET_ALL_ARTICLES,
   GET_MY_ARTICLES,
   GET_PROFILE,
-  GET_TOKEN, OPEN_ARTICLE,
+  GET_TOKEN,
+  OPEN_ARTICLE,
+  ASYNC_GET_CATEGORIES,
+  GET_CATEGORIES
 } from "./actionTypes";
 
 export function getTokenAction(payload) {
@@ -30,6 +35,13 @@ export function addArticleAction(payload) {
 export function getAllArticlesAction(payload) {
   return {
     type: GET_ALL_ARTICLES,
+    payload
+  }
+}
+
+export function getCategoriesAction(payload) {
+  return {
+    type: GET_CATEGORIES,
     payload
   }
 }
@@ -90,6 +102,13 @@ export function asyncGetAllArticlesAction(payload) {
   }
 }
 
+export function asyncGetPopularArticleAction(payload) {
+  return {
+    type: ASYNC_GET_POPULAR_ARTICLE,
+    payload
+  }
+}
+
 export function asyncGetMyArticlesAction(payload) {
   return {
     type: ASYNC_GET_MY_ARTICLES,
@@ -107,6 +126,13 @@ export function asyncGetProfileAction(payload) {
 export function asyncOpenArticleAction(payload) {
   return {
     type: ASYNC_OPEN_ARTICLE,
+    payload
+  }
+}
+
+export function asyncGetCategoriesAction(payload) {
+  return {
+    type: ASYNC_GET_CATEGORIES,
     payload
   }
 }

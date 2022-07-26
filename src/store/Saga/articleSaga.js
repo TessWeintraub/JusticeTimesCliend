@@ -1,16 +1,24 @@
 import {put, takeEvery} from "redux-saga/effects";
+import {instance} from "../instances";
 import {
   ASYNC_ADD_ARTICLE,
   ASYNC_GET_ALL_ARTICLES,
-  ASYNC_GET_MY_ARTICLES, ASYNC_OPEN_ARTICLE,
+  ASYNC_GET_CATEGORIES,
+  ASYNC_GET_MY_ARTICLES,
+  ASYNC_OPEN_ARTICLE
 } from "../actionTypes";
-import {instance} from "../instances";
-import {getAllArticlesAction, getMyArticlesAction, openArticleAction} from "../action";
-import Cookies from "js-cookie";
+import {
+  getAllArticlesAction,
+  getMyArticlesAction,
+  openArticleAction,
+  getCategoriesAction
+} from "../action";
 
-function* getAllArticlesWorker() {
-  const allArticles = yield instance.get("main-page", {headers: {'Authorization': Cookies.get("TOKEN")}})
+
+function* getAllArticlesWorker(action) {
+  const query = action.payload ? `?${action.payload}` : ''
   try {
+    const allArticles = yield instance.get(`posts` + query)
     yield put(getAllArticlesAction(allArticles.data))
   } catch (e) {
     console.log(e)
@@ -18,38 +26,37 @@ function* getAllArticlesWorker() {
 }
 
 function* getMyArticlesWorker() {
-  const myArticles = yield instance.get(
-      "my-articles",
-      {headers: {'Authorization': Cookies.get("TOKEN")}})
   try{
+    const myArticles = yield instance.get("my-posts")
     yield put(getMyArticlesAction(myArticles.data))
   } catch (e) {
     console.log(e)
   }
 }
 
-function* addArticleWorker(action) {
-  yield instance.post(
-      "create-article",
-      {...action.payload},
-      {headers: {'Authorization': Cookies.get("TOKEN")}})
+function* getCategoriesWorker() {
   try{
-    const allArticles = yield instance.get("main-page", {headers: {'Authorization': Cookies.get("TOKEN")}})
-    try {
-      yield put(getAllArticlesAction(allArticles.data))
-    } catch (e) {
-      console.log(e)
-    }
+    const categories = yield instance.get("posts/tags")
+    yield put(getCategoriesAction(categories.data))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function* addArticleWorker(action) {
+  console.log(action);
+  try{
+    yield instance.post("posts", action.payload)
+    const allArticles = yield instance.get("posts")
+    yield put(getAllArticlesAction(allArticles.data))
   } catch (e) {
     console.log(e)
   }
 }
 
 function* articleOnClickWorker(action) {
-  const newArticle = yield instance.patch("article-onclick",
-      {views: action.payload.views + 1, _id: action.payload._id},
-      {headers: {'Authorization': Cookies.get("TOKEN")}})
   try {
+    const newArticle = yield instance.get(`posts/${action.payload.id}`)
     yield put(openArticleAction(newArticle.data))
   } catch (e) {
     console.log(e)
@@ -58,6 +65,10 @@ function* articleOnClickWorker(action) {
 
 export function* getAllArticlesWatcher() {
   yield takeEvery(ASYNC_GET_ALL_ARTICLES, getAllArticlesWorker)
+}
+
+export function* getCategoriesWatcher() {
+  yield takeEvery(ASYNC_GET_CATEGORIES, getCategoriesWorker)
 }
 
 export function* getMyArticlesWatcher() {

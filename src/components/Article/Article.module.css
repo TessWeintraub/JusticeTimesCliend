@@ -2,6 +2,7 @@
 .main_page__article {
   display: flex;
   gap: 24px;
+  text-decoration: none;
 }
 
 .main_page__article:hover {
@@ -55,8 +56,13 @@
   font-size: 2rem;
   line-height: 2.5rem;
   margin-bottom: 16px;
+  color: #000000;
 }
-
+.article__tags {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
 .article__tag {
   font-family: 'Inter', sans-serif;
   width: min-content;
@@ -66,7 +72,8 @@
   background: #F6F6F6;
   padding: 0.5rem 0.75rem;
   border-radius: 118px;
-  margin-bottom: 24px;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .main_page__article__subtitle {
@@ -87,6 +94,7 @@
   align-items: center;
   gap: 24px;
   margin: 40px 0;
+  text-decoration: none;
 }
 
 .article_list__article:hover {
@@ -211,8 +219,6 @@
     width: 100%;
     height: auto;
   }
-
-
 }
 
 @media screen and (max-width: 750px) {

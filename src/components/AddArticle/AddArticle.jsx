@@ -1,22 +1,19 @@
-import React, {useEffect, useState} from "react";
-
+import React, {useState} from "react";
+import {useDispatch} from "react-redux";
 import {EditorState, convertToRaw} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
 import {useNavigate} from "react-router-dom";
-
+import {asyncAddArticleAction} from "../../store/action";
+import {timeRead} from "../../utils/timeRead";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
-
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import AddArticleClasses from "./AddArticle.module.css";
-import Cookies from "js-cookie";
-import {useDispatch} from "react-redux";
-import {asyncAddArticleAction} from "../../store/action";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 
 const AddArticle = () => {
-  const reader = new FileReader();
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const [isDisableBth, setIsDisableBth] = useState(false);
@@ -29,37 +26,31 @@ const AddArticle = () => {
       EditorState.createEmpty()
   );
 
-  useEffect(() => {
-    if (!Cookies.get("TOKEN")) navigate("/login", {replace: true});
-  }, [Cookies.get("TOKEN")]);
+
 
   const handleEditorChange = (state) => {
     setEditorState(state);
   };
 
   const clickSubmitBth = async () => {
+    const text = convertToRaw(editorState.getCurrentContent())
 
     const newArticle = {
       title: inputValue.title,
-      category: inputValue.subtitle,
-      text: convertToRaw(editorState.getCurrentContent()),
-      image: JSON.stringify(newImage),
-      date: new Date().toJSON().slice(0, 10).replace(/-/g, "/"),
-      views: 0
+      time_read: `${timeRead(text.blocks)} min read`,
+      tags: inputValue.subtitle.split(',').map(tag => tag.trim()),
+      content: JSON.stringify(text),
     };
 
-    dispatch(asyncAddArticleAction(newArticle))
-    navigate("/main-page", {replace: true});
+    const formData = new  FormData()
+    formData.append('file', newImage)
+    formData.append('body', JSON.stringify(newArticle))
+
+
+    dispatch(asyncAddArticleAction(formData))
+    // navigate("/main-page", {replace: true});
   };
 
-  const openImage = (e) => {
-    const file = e.target.files[0];
-    reader.onloadend = () => {
-      const base64String = reader.result;
-      setNewImage(base64String);
-    };
-    reader.readAsDataURL(file);
-  };
 
   return (
       <>
@@ -94,9 +85,7 @@ const AddArticle = () => {
             <Button
                 name="Publish an article"
                 variant="contained__header"
-                onClick={() => {
-                  clickSubmitBth();
-                }}
+                onClick={clickSubmitBth}
                 isDisable={isDisableBth}
             />
             <div className={AddArticleClasses[`upload__button`]}>
@@ -105,7 +94,7 @@ const AddArticle = () => {
                   type="file"
                   accept=".png, .jpg, .jpeg"
                   className={AddArticleClasses[`upload`]}
-                  onChange={(e) => openImage(e)}
+                  onChange={(e) => setNewImage(e.target.files[0])}
               />
             </div>
           </div>
