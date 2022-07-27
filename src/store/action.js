@@ -6,6 +6,8 @@ import {
   ASYNC_GET_MY_ARTICLES,
   ASYNC_GET_PROFILE,
   ASYNC_LOGIN,
+  ASYNC_GOOGLE_AUTH,
+  ASYNC_GITHUB_AUTH,
   ASYNC_OPEN_ARTICLE,
   ASYNC_REGISTER,
   CHANGE_PROFILE,
@@ -15,7 +17,7 @@ import {
   GET_TOKEN,
   OPEN_ARTICLE,
   ASYNC_GET_CATEGORIES,
-  GET_CATEGORIES
+  GET_CATEGORIES, ASYNC_LOGOUT
 } from "./actionTypes";
 
 export function getTokenAction(payload) {
@@ -84,6 +86,27 @@ export function asyncRegisterAction(payload) {
 export function asyncLoginAction(payload) {
   return {
     type: ASYNC_LOGIN,
+    payload
+  }
+}
+
+export function asyncLogoutAction(payload) {
+  return {
+    type: ASYNC_LOGOUT,
+    payload
+  }
+}
+
+export function asyncGoogleAuthAction(payload) {
+  return {
+    type: ASYNC_GOOGLE_AUTH,
+    payload
+  }
+}
+
+export function asyncGitHubAuthAction(payload) {
+  return {
+    type: ASYNC_GITHUB_AUTH,
     payload
   }
 }

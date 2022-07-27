@@ -1,21 +1,19 @@
 import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import Cookies from "js-cookie";
-
 import Button from "../UI/Button/Button";
 
 import navClasses from "./Nav.module.scss";
 import { ReactComponent as Logo } from "../../assets/Logo.svg";
 import { useDispatch, useSelector } from "react-redux";
+import { asyncLogoutAction } from "../../store/action";
 
 const Nav = ({ location }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { isAuth } = useSelector((state) => state.auth)
   const logOut = () => {
-    dispatch({type: 'SET_AUTH', payload : {isAuth: false, isLoading: false}})
-    Cookies.set('is_auth', false)
+    dispatch(asyncLogoutAction())
     navigate('/login')
   }
 

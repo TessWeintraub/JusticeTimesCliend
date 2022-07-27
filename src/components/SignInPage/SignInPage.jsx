@@ -12,7 +12,8 @@ import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
 
 import SignInPageClasses from "./SignInPage.module.css";
-import voidUserImage from "../../assets/Group54.svg";
+import GoogleButton from "../UI/GoogleButton/GoogleButton";
+import GitHubButton from "../UI/GitHubButton/GitHubButton";
 
 const SignInPage = () => {
   const [isDisableBtn, setIsDisableBtn] = useState(true);
@@ -32,9 +33,6 @@ const SignInPage = () => {
     });
   }, [formState]);
 
-  useEffect(() => {
-    if (Cookies.get("TOKEN")) navigate("/main-page", {replace: true})
-  }, [Cookies.get("TOKEN")])
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -47,7 +45,13 @@ const SignInPage = () => {
 
     dispatch(asyncRegisterAction(newUser))
 
-    // navigate("/main-page")
+    setTimeout(()=>{
+      if (JSON.parse(Cookies.get('is_auth')))
+      {
+        dispatch({type: 'SET_AUTH', payload : {isAuth: true, isLoading: false}})
+        navigate('/main-page', {replace: true})
+      }
+    },300)
   };
 
   return (
@@ -105,6 +109,14 @@ const SignInPage = () => {
                 onClick={(e) => submitForm(e)}
             />
           </form>
+          <div className={SignInPageClasses[`signing__services_auth`]}>
+            <GoogleButton
+              buttonText='Log In'
+            />
+            <GitHubButton
+              buttonText='Log In'
+            />
+          </div>
         </main>
         <Footer/>
       </>

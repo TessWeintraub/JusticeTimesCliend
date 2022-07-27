@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 export const instance = axios.create({
-  baseURL: "http://127.0.0.1:5000/",
+  baseURL: "http://justicetimes.com:5000/",
   headers: {
     "Content-Type": "application/json;charset=utf-8"
   },
@@ -14,7 +14,7 @@ instance.interceptors.response.use(
   async response => {
     if (response.status === 401 && response.data.message === "Access токен истек") {
       try {
-        await axios.get("http://127.0.0.1:5000/auth/refresh", { withCredentials: true });
+        await axios.get("http://justicetimes.com:5000/auth/refresh", { withCredentials: true });
         return await retryRequest(response)
       } catch (e) {
         return e;

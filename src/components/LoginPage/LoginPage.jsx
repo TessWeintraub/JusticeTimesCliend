@@ -8,13 +8,12 @@ import Input from "../UI/Input/Input"
 import Button from "../UI/Button/Button"
 import {loginData} from "../../mockdata/appConstants"
 import Cookies from "js-cookie";
-import {instance} from "../../store/instances";
 import LoginPageClasses from "./LoginPage.module.css"
 import {asyncLoginAction} from "../../store/action";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-
-
+import GoogleButton from "../UI/GoogleButton/GoogleButton";
+import GitHubButton from "../UI/GitHubButton/GitHubButton";
 
 const LoginPage = () => {
   const [formState, setFormState] = useState(loginData)
@@ -34,6 +33,8 @@ const LoginPage = () => {
     });
   }, [validState, formState])
 
+
+
   const clickLoginBth = (e) => {
     e.preventDefault();
     const thisUser = {
@@ -43,11 +44,7 @@ const LoginPage = () => {
     dispatch(asyncLoginAction(thisUser))
 
     setTimeout(()=>{
-      if (JSON.parse(Cookies.get('is_auth')))
-      {
-        dispatch({type: 'SET_AUTH', payload : {isAuth: true, isLoading: false}})
         navigate('/main-page', {replace: true})
-      }
     },300)
   };
 
@@ -86,6 +83,14 @@ const LoginPage = () => {
                 isDisable={isDisableBtn}
             />
           </form>
+          <div className={LoginPageClasses[`login__services_auth`]}>
+            <GoogleButton
+              buttonText='Log In'
+            />
+            <GitHubButton
+              buttonText='Log In'
+            />
+          </div>
           <p className={LoginPageClasses[`login__subtitle`]}>
             Don’t have a Times account?{" "}
             <Link to="/sign-in">

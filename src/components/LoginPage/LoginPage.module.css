@@ -36,3 +36,15 @@
     text-decoration: underline 2px;
     color: rgba(36, 36, 36, 1);
 }
+.login__services_auth {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+.login__services_auth button{
+    display: flex;
+    justify-content: center;
+}

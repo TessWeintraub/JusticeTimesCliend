@@ -23,3 +23,15 @@
     line-height: 3.5rem;
     margin-bottom: 48px;
 }
+.signing__services_auth{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+.signing__services_auth button{
+    display: flex;
+    justify-content: center;
+}

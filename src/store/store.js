@@ -1,7 +1,7 @@
 import createSagaMiddleware from "redux-saga"
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {all} from "redux-saga/effects"
-import {loginWatcher, registerWatcher} from "./Saga/authSaga";
+import { googleWatcher, loginWatcher, registerWatcher, githubWatcher, logoutWatcher } from "./Saga/authSaga";
 import {getProfileWatcher} from "./Saga/profileSaga"
 import {getTokenReducer} from "./Reducers/getTokenReducer";
 import {getProfileReducer} from "./Reducers/getProfilerReducer";
@@ -23,6 +23,9 @@ export default function* rootSaga() {
   yield all([
     registerWatcher(),
     loginWatcher(),
+    logoutWatcher(),
+    googleWatcher(),
+    githubWatcher(),
     getProfileWatcher(),
     getAllArticlesWatcher(),
     getMyArticlesWatcher(),

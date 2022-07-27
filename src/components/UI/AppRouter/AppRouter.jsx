@@ -2,17 +2,19 @@ import React, { useEffect } from "react";
 import {Route, Routes, Navigate} from "react-router-dom";
 import Cookies from "js-cookie";
 import {publicRoutes, privateRoutes} from "./router";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { instance } from "../../../store/instances";
 
 const AppRouter = () => {
   const cookieIsAuth = Cookies.get('is_auth') && JSON.parse(Cookies.get('is_auth'))
   const dispatch = useDispatch()
   const { isAuth } = useSelector((state) => state.auth)
 
+
+
   useEffect(()=>{
         if (cookieIsAuth) {
-          axios.get('http://127.0.0.1:5000/auth/refresh', {
+          instance.get('http://justicetimes.com:5000/auth/refresh', {
               headers: {
                 "Content-Type": "application/json;charset=utf-8"
               },
