@@ -1,0 +1,28 @@
+name: Build App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    environment: build
+    steps:
+      - name: Use variables
+        env:
+          TEST_VAR: ${{ vars.TEST_VAR }}
+        run: |
+          echo "organization variable : $TEST_VAR"
+      - name: Run build
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: v16.6.1
+      - name: Install dependencies
+        run: yarn -intall
+      - name: Build
+        run: yarn build
